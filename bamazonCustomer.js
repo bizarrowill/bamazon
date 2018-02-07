@@ -38,13 +38,8 @@ function customerChoice(inventory) {
         message: "What is the ID of the product you would like to buy?"
       }
     ])
-    // ]).then(function(val) {
-    //   if (val.itemID.toLowerCase() === "q") {
-    //     closeProgram()
-    //     console.log("Goodbye!");
-    //     process.exit(0);
-    //   };
-    // });  
+
+ 
     .then(function(val) {
       closeProgram(val.itemID);
       console.log(val);
@@ -92,13 +87,14 @@ function customerQuantity(product){
 //     Purchase the chosen amount and update database
 
 function finalizeTransaction(product, quantity) {
-  // 
+  // console.log(product);
   con.query(
-    "UPDATE products SET stock_quantity = stock_ quantity - ? WHERE item_id = ?",
+    "UPDATE products SET stock_quantity = stock_quantity - ? WHERE item_id = ?",
     [quantity,product.item_id],
     function(err, result) {
       // Provide confirmation to buyer
-      console.log("\nSuccessful transaction " + quantity + " " + product.product_name + "'s!");
+      console.log("\nSuccessful transaction " + quantity + " " + product.product_name + "'s!" + " Your total is $" + (product.price * quantity));
+      // console.log(result);
       showProducts(); 
     }
   );
@@ -115,6 +111,7 @@ function checkInventory(choiceId, inventory) {
   }
   // return null if not
   return null;
+  
 };
 
 function closeProgram(choice) {
